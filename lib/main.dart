@@ -72,11 +72,12 @@ class Usuario {
 }
 
 class PageCadastro extends StatelessWidget {
-  static const optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   Usuario _usuario = new Usuario();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
+    Paint paint = Paint();
+    paint.color = Colors.green;
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(right: 20, left: 20, top: 50),
@@ -85,7 +86,15 @@ class PageCadastro extends StatelessWidget {
           child: Column(
             children: [
               // cadastro
-              Text('Cadastro', style: optionStyle),
+              Text(
+                'Cadastro', 
+                style: TextStyle(
+                  background: paint,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
               // campo nome
               TextFormField(
                 keyboardType: TextInputType.name,
@@ -182,7 +191,6 @@ class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProv
   AnimationController controller;
   Animation colorAnimation;
   Animation sizeAnimation;
-  static const optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   void initState() {
@@ -207,7 +215,16 @@ class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProv
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Text('Informações', style: optionStyle),
+                child: new RotationTransition(
+                  turns: new AlwaysStoppedAnimation(-15 / 360),
+                  child: new Text(
+                    'Informações',
+                    style: TextStyle(
+                      fontSize: 30,
+                      foreground: Paint() ..style = PaintingStyle.stroke ..strokeWidth = 4 ..color = Colors.blue[700],
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30),
@@ -266,7 +283,25 @@ class _PageSobreState extends State<PageSobre> with SingleTickerProviderStateMix
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Text('Sobre', style: optionStyle),
+                child: Text(
+                  'Sobre', 
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 10.0,
+                        color: Colors.black,
+                        offset: Offset(5.0, 5.0),
+                      ),
+                    ],
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.purple,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 30),
