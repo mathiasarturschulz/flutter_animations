@@ -173,9 +173,29 @@ class PageCadastro extends StatelessWidget {
   }
 }
 
-class PageInformacoes extends StatelessWidget {
+class PageInformacoes extends StatefulWidget {
+  @override
+  _PageInformacoesState createState() => _PageInformacoesState();
+}
+
+class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProviderStateMixin{
+  AnimationController controller;
+  Animation colorAnimation;
+  Animation sizeAnimation;
   static const optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  void initState() {
+    super.initState();
+    controller =  AnimationController(vsync: this, duration: Duration(seconds: 2));
+    colorAnimation = ColorTween(begin: Colors.blue, end: Colors.yellow).animate(controller);
+    sizeAnimation = Tween<double>(begin: 150.0, end: 300.0).animate(controller);
+    controller.addListener(() {
+      setState(() {});
+    });
+    controller.repeat();
+    controller.repeat(reverse: true);
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,18 +211,23 @@ class PageInformacoes extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Número de pessoas cadastradas para vacinação: ' + numVacinas.toString(), 
-                    style: TextStyle(fontSize: 20),
+                child: Container(
+                  height: sizeAnimation.value,
+                  width: sizeAnimation.value,
+                  color: colorAnimation.value,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Número de pessoas cadastradas para vacinação: ' + numVacinas.toString(), 
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         )
-      )
+      ),
     );
   }
 }
