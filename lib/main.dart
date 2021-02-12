@@ -76,8 +76,6 @@ class PageCadastro extends StatelessWidget {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
-    Paint paint = Paint();
-    paint.color = Colors.green;
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(right: 20, left: 20, top: 50),
@@ -89,10 +87,15 @@ class PageCadastro extends StatelessWidget {
               Text(
                 'Cadastro', 
                 style: TextStyle(
-                  background: paint,
+                  color: Colors.purple,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
+                  background: Paint()
+                    ..strokeWidth = 40.0
+                    ..color = Colors.grey
+                    ..style = PaintingStyle.stroke
+                    ..strokeJoin = StrokeJoin.round,
                 ),
               ),
               // campo nome
@@ -222,12 +225,16 @@ class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProv
                     style: TextStyle(
                       fontSize: 30,
                       foreground: Paint() ..style = PaintingStyle.stroke ..strokeWidth = 4 ..color = Colors.blue[700],
+                      background: Paint()
+                        ..strokeWidth = 40.0
+                        ..color = Colors.grey
+                        ..style = PaintingStyle.stroke
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 60),
                 child: Container(
                   height: sizeAnimation.value,
                   width: sizeAnimation.value,
@@ -259,7 +266,6 @@ class _PageSobreState extends State<PageSobre> with SingleTickerProviderStateMix
   Duration duration = Duration(milliseconds: 800);
   AnimationController controller;
   Animation<Color> animation;
-  static const optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   void initState() {
