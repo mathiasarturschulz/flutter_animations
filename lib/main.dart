@@ -190,23 +190,9 @@ class PageInformacoes extends StatefulWidget {
   _PageInformacoesState createState() => _PageInformacoesState();
 }
 
-class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProviderStateMixin{
-  AnimationController controller;
-  Animation colorAnimation;
-  Animation sizeAnimation;
+class _PageInformacoesState extends State<PageInformacoes> {
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
-  void initState() {
-    super.initState();
-    controller =  AnimationController(vsync: this, duration: Duration(seconds: 2));
-    colorAnimation = ColorTween(begin: Colors.blue, end: Colors.yellow).animate(controller);
-    sizeAnimation = Tween<double>(begin: 150.0, end: 300.0).animate(controller);
-    controller.addListener(() {
-      setState(() {});
-    });
-    controller.repeat();
-    controller.repeat(reverse: true);
-  }
+  double opacityLevel = 0.0;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,18 +221,32 @@ class _PageInformacoesState extends State<PageInformacoes> with SingleTickerProv
               ),
               Padding(
                 padding: EdgeInsets.only(top: 60),
-                child: Container(
-                  height: sizeAnimation.value,
-                  width: sizeAnimation.value,
-                  color: colorAnimation.value,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Número de pessoas cadastradas para vacinação: ' + numVacinas.toString(), 
-                      style: TextStyle(fontSize: 20),
-                    ),
+                child: Column(children: <Widget>[
+                  // Image.network(owl_url),
+                  Image.asset(
+                    'imagens/vacinacao.jpg'
                   ),
-                ),
+                  TextButton(
+                    child: Text(
+                      'Show details',
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
+                    onPressed: () => setState(() {
+                      opacityLevel = 1.0;
+                    }),
+                  ),
+                  AnimatedOpacity(
+                    duration: Duration(seconds: 3),
+                    opacity: opacityLevel,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Número de pessoas cadastradas para vacinação: ' + numVacinas.toString(), 
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  )
+                ])
               ),
             ],
           ),
