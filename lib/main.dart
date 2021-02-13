@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() => runApp(MyApp());
 
@@ -222,7 +223,6 @@ class _PageInformacoesState extends State<PageInformacoes> {
               Padding(
                 padding: EdgeInsets.only(top: 60),
                 child: Column(children: <Widget>[
-                  // Image.network(owl_url),
                   Image.asset(
                     'imagens/vacinacao.jpg'
                   ),
@@ -328,6 +328,9 @@ class _PageSobreState extends State<PageSobre> with SingleTickerProviderStateMix
                     minWidth: 100,
                     child: child,
                     onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => new EasingAnimationWidget())
+                      );
                       if (controller.status == AnimationStatus.completed) {
                         controller.reverse();
                       } else {
@@ -337,7 +340,7 @@ class _PageSobreState extends State<PageSobre> with SingleTickerProviderStateMix
                   );
                 },
                 child: Text(
-                  'Trocar de Cor',
+                  'Mais informações',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -346,5 +349,68 @@ class _PageSobreState extends State<PageSobre> with SingleTickerProviderStateMix
         ),
       ),
     );
+  }
+}
+
+class EasingAnimationWidget extends StatefulWidget {
+  @override
+  EasingAnimationWidgetState createState() => EasingAnimationWidgetState();
+}
+
+class EasingAnimationWidgetState extends State<EasingAnimationWidget> with TickerProviderStateMixin {
+  AnimationController _controller;
+  Animation _animation;
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    _controller.forward();
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (BuildContext context, Widget child) {
+        return Scaffold(
+          body: Transform(
+            transform:
+            Matrix4.translationValues(_animation.value * width, 0.0, 0.0),
+            child: new Center(
+              child: Image.asset(
+                'imagens/governo.jpg'
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 2));
+    _animation = Tween(begin: -1.0, end: 0.0).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    ))..addStatusListener(handler);
+  }
+
+  void handler(status) {
+    if (status == AnimationStatus.completed) {
+      _animation.removeStatusListener(handler);
+      _controller.reset();
+      _animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.fastOutSlowIn,
+      ))
+        ..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            Navigator.pop(context);
+          }
+        });
+      _controller.forward();
+    }
+  }
+
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
